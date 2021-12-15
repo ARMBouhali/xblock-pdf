@@ -13,5 +13,11 @@ function pdfXBlockInitView(runtime, element) {
             var handlerUrl = runtime.handlerUrl(element, 'on_download');
             $.post(handlerUrl, '{}');
         });
+        
+        let viewerUrl = element.find('.viewer-url').text()
+        let viewer = element.find('.viewer')
+        viewer.attr('src', viewerUrl + viewer.attr('src')) 
+        viewer.show()
     });
 }
+

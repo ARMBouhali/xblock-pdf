@@ -1,5 +1,6 @@
 """ pdfXBlock main Python class"""
 
+import logging
 import pkg_resources
 from django.template import Context, Template
 
@@ -39,14 +40,14 @@ class PdfBlock(
 
     url = String(
         display_name=_("PDF URL"),
-        default=_("http://tutorial.math.lamar.edu/pdf/Trig_Cheat_Sheet.pdf"),
+        default=_("https://tutorial.math.lamar.edu/pdf/Trig_Cheat_Sheet.pdf"),
         scope=Scope.content,
         help=_("The URL for your PDF.")
     )
 
     allow_download = Boolean(
         display_name=_("PDF Download Allowed"),
-        default=True,
+        default=False,
         scope=Scope.content,
         help=_("Display a download button for this PDF.")
     )
@@ -97,6 +98,7 @@ class PdfBlock(
         when viewing courses.
         """
         context = {
+            "id": self.location.block_id,
             'display_name': self.display_name,
             'url': self.url,
             'allow_download': self.allow_download,
