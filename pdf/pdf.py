@@ -4,24 +4,30 @@ import logging
 import pkg_resources
 from django.template import Context, Template
 
+from xblock.completable import CompletableXBlockMixin, XBlockCompletionMode
 from xblock.core import XBlock
 from xblock.fields import Scope, String, Boolean
 from xblock.fragment import Fragment
 from xblockutils.resources import ResourceLoader
 from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
-from xblock.scorable import ScorableXBlockMixin, Score
 from .utils import _, DummyTranslationService
 
 loader = ResourceLoader(__name__)
 
 @XBlock.wants('settings')
 @XBlock.needs('i18n')
+@XBlock.wants('completion')
 class PdfBlock(
-    ScorableXBlockMixin,
+    CompletableXBlockMixin,
     XBlock,
     XBlockWithSettingsMixin,
     ThemableXBlockMixin
 ):
+    '''
+    Set the pdf block for on-view completion
+    '''
+    has_custom_completion = False
+    completion_mode = XBlockCompletionMode.COMPLETABLE
 
     '''
     Icon of the XBlock. Values : [other (default), video, problem]
